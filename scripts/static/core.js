@@ -647,22 +647,34 @@
 
 			var stack		= new pstack({});
 			
+			var bufferBalance = [];
+
 			// Get the current balance
 			stack.add(function(done) {
-				window.ftl.portfolio.refreshBalance(done);
+				window.ftl.portfolio.refreshBalance(function(response) {
+					bufferBalance = response;
+					done();
+				}, bufferBalance);
 			});
 
 			// Get the current balance values
 			stack.add(function(done) {
-				window.ftl.portfolio.refreshCharts(done);
+				window.ftl.portfolio.refreshCharts(function(response) {
+					bufferBalance = response;
+					done();
+				}, bufferBalance);
 			});
 
 			// Load the wallet to find the contracts being traded
 			stack.add(function(done) {
-				window.ftl.portfolio.refreshPositions(done);
+				window.ftl.portfolio.refreshPositions(function(positions, response) {
+					bufferBalance = response;
+					done();
+				}, bufferBalance);
 			});
 			
 			stack.start(function() {
+				window.ftl.portfolio.data.balances = bufferBalance;
 				window.ftl.portfolio.last_refresh = new Date();
 				window.ftl.portfolio.loading = false;
 				if (callback) {
@@ -670,7 +682,55 @@
 				}
 			});
 		},
-		refreshPositions:	function(callback) {
+		refreshBalance:	function(callback, bufferBalance) {
+			window.ftl.bitquery.exec('pancake-balance', {
+				wallet: window.ftl.settings.wallet
+			}, function(response) {
+				var balances = [];
+				_.each(response.data.ethereum.address, function(currItem) {
+					_.each(currItem.balances, function(item) {
+						balances.push(item);
+					})
+				})
+				//console.log("balances", balances)
+				//window.ftl.portfolio.data.balances = balances;
+				bufferBalance = balances;
+				if (callback) {
+					callback(bufferBalance);
+				}
+			})
+		},
+		refreshCharts:	function(callback, bufferBalance) {
+			var stack	= new pstack({async: true});
+			var charts	= {}
+
+			//_.each(window.ftl.portfolio.data.balances, function(item, n) {
+			_.each(bufferBalance, function(item, n) {
+				if (item.value>0 && item.currency.symbol!='BNB') {
+					stack.add(function(done) {
+						window.ftl.bitquery.exec('pancake-historical', {
+							baseCurrency:	item.currency.address,
+							quoteCurrency:	BNB
+						}, function(response) {
+
+							charts[item.currency.symbol] = response.data.ethereum.dexTrades;
+							//window.ftl.portfolio.data.balances[n].bnbValue = item.value * parseFloat(charts[item.currency.symbol][0].close_price)
+							bufferBalance[n].bnbValue = item.value * parseFloat(charts[item.currency.symbol][0].close_price)
+							//console.log(item.currency.symbol, window.ftl.portfolio.data.balances[n].bnbValue);
+							done();
+						})
+					});
+				}
+			});
+			
+			stack.start(function() {
+				window.ftl.portfolio.data.charts = charts;
+				if (callback) {
+					callback(bufferBalance);
+				}
+			});
+		},
+		refreshPositions:	function(callback, bufferBalance) {
 			window.ftl.bitquery.exec('pancake-transactions', {
 				wallet: window.ftl.settings.wallet
 			}, function(response) {
@@ -727,71 +787,35 @@
 
 				console.log("ledger", ledger)
 
-				_.each(window.ftl.portfolio.data.balances, function(item, n) {
+				/*_.each(window.ftl.portfolio.data.balances, function(item, n) {
 					if (ledger[item.currency.symbol]) {
 						if (!ledger[item.currency.symbol].sold) {
 							window.ftl.portfolio.data.balances[n].gains = ((item.bnbValue-ledger[item.currency.symbol].avg.sum)/ledger[item.currency.symbol].avg.sum)*100;
 						}
 						window.ftl.portfolio.data.balances[n].sold = !!ledger[item.currency.symbol].sold;
 					}
+				})*/
+				_.each(bufferBalance, function(item, n) {
+					if (ledger[item.currency.symbol]) {
+						if (!ledger[item.currency.symbol].sold) {
+							bufferBalance[n].gains = ((item.bnbValue-ledger[item.currency.symbol].avg.sum)/ledger[item.currency.symbol].avg.sum)*100;
+						}
+						bufferBalance[n].sold = !!ledger[item.currency.symbol].sold;
+					}
 				})
 
 				// Sort the balances by highest value
-				window.ftl.portfolio.data.balances.sort(function(a, b) {
+				//window.ftl.portfolio.data.balances.sort(function(a, b) {
+					bufferBalance.sort(function(a, b) {
 					return b.bnbValue-a.bnbValue;
 				})
 
 				window.ftl.portfolio.data.ledger = ledger;
 
 				if (callback) {
-					callback(response.data.ethereum.dexTrades);
+					callback(response.data.ethereum.dexTrades, bufferBalance);
 				}
 			})
-		},
-		refreshBalance:	function(callback) {
-			window.ftl.bitquery.exec('pancake-balance', {
-				wallet: window.ftl.settings.wallet
-			}, function(response) {
-				var balances = [];
-				_.each(response.data.ethereum.address, function(currItem) {
-					_.each(currItem.balances, function(item) {
-						balances.push(item);
-					})
-				})
-				//console.log("balances", balances)
-				window.ftl.portfolio.data.balances = balances;
-				if (callback) {
-					callback(balances);
-				}
-			})
-		},
-		refreshCharts:	function(callback) {
-			var stack	= new pstack({async: true});
-			var charts	= {}
-
-			_.each(window.ftl.portfolio.data.balances, function(item, n) {
-				if (item.value>0 && item.currency.symbol!='BNB') {
-					stack.add(function(done) {
-						window.ftl.bitquery.exec('pancake-historical', {
-							baseCurrency:	item.currency.address,
-							quoteCurrency:	BNB
-						}, function(response) {
-
-							charts[item.currency.symbol] = response.data.ethereum.dexTrades;
-							window.ftl.portfolio.data.balances[n].bnbValue = item.value * parseFloat(charts[item.currency.symbol][0].close_price)
-							//console.log(item.currency.symbol, window.ftl.portfolio.data.balances[n].bnbValue);
-							done();
-						})
-					});
-				}
-			});
-			
-			stack.start(function() {
-				window.ftl.portfolio.data.charts = charts;
-				if (callback) {
-					callback();
-				}
-			});
 		},
 		refreshBalanceValues:	function(callback) {
 			var stack		= new pstack({async: true});
@@ -889,8 +913,10 @@
 			var stack	= new pstack({async: true});
 			var tokenbd	= {}
 
+			console.log("getTokenBirthdates() tokens", tokens)
+
 			_.each(tokens, function(address, symbol) {
-				if (!window.ftl.explorer.data.tokens[symbol] && !window.ftl.explorer.data.watchlist[symbol]) {
+				if (!window.ftl.explorer.data.tokens[symbol]) {
 					stack.add(function(done) {
 						window.ftl.bitquery.exec('pancake-token-age', {
 							baseCurrency:	BNB,
@@ -902,7 +928,7 @@
 									created:	new Date(response.data.ethereum.dexTrades[0].timeInterval.minute)
 								};
 							} catch(e) {
-								console.log("Parse failure", symbol, response);
+								console.info("Parse failure", symbol, response);
 							}
 							done();
 						})
@@ -924,7 +950,7 @@
 			// Filter the potential ones
 			var maxAge = 1000*60*60*24*1;
 			_.each(tokens, function(tokenInfo, symbol) {
-				if (!window.ftl.explorer.data.tokens[symbol] && !window.ftl.explorer.data.watchlist[symbol]) {
+				if (!window.ftl.explorer.data.tokens[symbol]) {
 					buffer[symbol] = tokenInfo;
 				}
 			});
@@ -952,6 +978,10 @@
 			window.ftl.openLink('https://bscscan.com/token/'+addr);
 			//window.Arbiter.inform('iframe.load', 'https://bscscan.com/token/'+addr);
 		},
+		openTokenContract:	function(addr) {
+			window.ftl.openLink('https://bscscan.com/address/'+addr);
+			//window.Arbiter.inform('iframe.load', 'https://bscscan.com/token/'+addr);
+		},
 		openPancakeSwap:	function(addr) {
 			window.ftl.openLink('https://exchange.pancakeswap.finance/#/swap?inputCurrency=BNB&outputCurrency='+addr);
 		},
@@ -970,7 +1000,7 @@
 				update(data);
 				window.ftl.explorer.data.watchlist = data;
 			}, function() {
-				done();
+				
 			});
 		}
 	}

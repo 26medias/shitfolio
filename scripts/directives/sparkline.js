@@ -25,8 +25,10 @@
 				init:	function() {
 					$scope.main.destroy();
 					var data = [['']];
-					//console.log("$scope.uiSparkline", $scope.uiSparkline)
-					var arr = $scope.uiSparkline.reverse();
+					console.log("$scope.uiSparkline", $scope.uiSparkline)
+					$scope.uiSparkline.sort(function(a,b) {
+						return new Date(a.timeInterval.minute).getTime()-new Date(b.timeInterval.minute).getTime()
+					});
 					//console.log("arr", arr)
 					var dataset = _.map($scope.uiSparkline, function(item, n) {
 						data.push([parseFloat(item.close_price)])
@@ -40,7 +42,7 @@
 					chart.draw(data, {width: 150, height: 30, showAxisLines: false,  showValueLabels: false, labelPosition: 'left', backgroundColor: '#283138'});
 				},
 				destroy:	function() {
-					
+					$(element).find('.sparkline-container').empty();
 				},
 			};
 			

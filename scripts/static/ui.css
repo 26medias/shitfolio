@@ -609,16 +609,19 @@ a {
   grid-area: symbol;
   font-size: 14px;
   font-weight: 800;
-  color: #ffffff;
+  color: #8BC34A;
 }
-.balance > div > .symbol.positive {
-  color: #4CAF50;
+.balance > div > .symbol.high {
+  color: #2196f3;
+}
+.balance > div > .symbol.low {
+  color: #FB8C00;
 }
 .balance > div > .symbol.negative {
   color: #f31c1c;
 }
-.balance > div > .symbol.high {
-  color: #2196f3;
+.balance > div > .symbol.dumped {
+  color: #741010;
 }
 .balance > div > .value {
   grid-area: value;
@@ -640,22 +643,29 @@ a {
   grid-area: gains;
   font-size: 10px;
   font-weight: 300;
-  color: #4CAF50;
+  color: #8BC34A;
   text-align: right;
+}
+.balance > div > .gains.high {
+  color: #2196f3;
+}
+.balance > div > .gains.low {
+  color: #FB8C00;
 }
 .balance > div > .gains.negative {
   color: #f31c1c;
 }
-.balance > div > .gains.high {
-  color: #2196f3;
+.balance > div > .gains.dumped {
+  color: #741010;
 }
 .transactions {
   padding: 5px;
 }
 .transactions > div {
+  width: 100%;
   margin-bottom: 10px;
   display: grid;
-  grid-template-columns: 130px 80px 50px 40px;
+  grid-template-columns: 130px 90px 40px auto;
   grid-template-rows: auto;
   grid-template-areas: "position_type symbol arrow bnb_value" "date          value  arrow bnb_value";
 }
@@ -665,7 +675,7 @@ a {
 }
 .transactions > div .position_type {
   grid-area: position_type;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 800;
   color: #ffffff;
 }
@@ -677,7 +687,7 @@ a {
 }
 .transactions > div .symbol {
   grid-area: symbol;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 800;
   color: #ffffff;
 }
@@ -694,8 +704,9 @@ a {
   color: #ffffff;
 }
 .transactions > div .bnb_value {
+  justify-self: end;
   grid-area: bnb_value;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 800;
   color: #ffffff;
 }

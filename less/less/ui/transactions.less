@@ -1,9 +1,10 @@
 ﻿.transactions {
     padding: 5px;
     & > div {
+        width: 100%;
         margin-bottom: 10px;
         display: grid;
-        grid-template-columns: 130px 80px 50px 40px;
+        grid-template-columns: 130px 90px 40px auto;
         grid-template-rows: auto;
         grid-template-areas: 
             "position_type symbol arrow bnb_value"
@@ -15,7 +16,7 @@
         }
         .position_type {
             grid-area: position_type;
-            font-size: 14px;
+            font-size: 12px;
             font-weight: 800;
             color: #ffffff;
         }
@@ -27,7 +28,7 @@
         }
         .symbol {
             grid-area: symbol;
-            font-size: 14px;
+            font-size: 12px;
             font-weight: 800;
             color: #ffffff;
         }
@@ -44,8 +45,9 @@
             color: #ffffff;
         }
         .bnb_value {
+            justify-self: end;
             grid-area: bnb_value;
-            font-size: 14px;
+            font-size: 12px;
             font-weight: 800;
             color: #ffffff;
         }

@@ -19,15 +19,18 @@
             grid-area: symbol;
             font-size: 14px;
             font-weight: 800;
-            color: #ffffff;
-            &.positive {
-                color: #4CAF50;
+            color: #8BC34A;
+            &.high {
+                color: rgba(33,150,243 ,1);
+            }
+            &.low {
+                color: #FB8C00;
             }
             &.negative {
                 color: #f31c1c;
             }
-            &.high {
-                color: rgba(33,150,243 ,1);
+            &.dumped {
+                color: #741010;
             }
         }
         & > .value {
@@ -50,13 +53,19 @@
             grid-area: gains;
             font-size: 10px;
             font-weight: 300;
-            color: #4CAF50;
+            color: #8BC34A;
             text-align: right;
+            &.high {
+                color: rgba(33,150,243 ,1);
+            }
+            &.low {
+                color: #FB8C00;
+            }
             &.negative {
                 color: #f31c1c;
             }
-            &.high {
-                color: rgba(33,150,243 ,1);
+            &.dumped {
+                color: #741010;
             }
         }
     }

@@ -1,7 +1,7 @@
 <div>
 	<div class="balance">
 		<div ng-repeat="item in core.portfolio.data.balances|orderBy:'-gains'" ng-if="item.value>0 && (item.gains || item.currency.symbol=='BNB')">
-			<div class="symbol" ng-click="core.explorer.openChart(item.currency.address)" ng-class="{negative:item.gains<0, high:item.gains>50, positive:item.gains>0&&item.gains<50}">
+			<div class="symbol" ng-click="core.explorer.openChart(item.currency.address)" ng-class="{high:item.gains>50, positive:item.gains>0&&item.gains<50, low:item.gains<=0&&item.gains>-30, negative:item.gains<=-30&&item.gains>-65, dumped:item.gains<=-65}">
 				{{item.currency.symbol}}
 				<span class="tag red" ng-if="item.sold">SOLD</span>
 			</div>
@@ -14,11 +14,15 @@
 			<div class="bnb" ng-if="item.bnbValue">
 				{{item.bnbValue|number:2}} BNB
 			</div>
-			<div class="gains" ng-if="item.gains" ng-class="{negative:item.gains<0, high:item.gains>50}">
+			<div class="gains" ng-if="item.gains" ng-class="{high:item.gains>50, positive:item.gains>0&&item.gains<50, low:item.gains<=0&&item.gains>-30, negative:item.gains<=-30&&item.gains>-65, dumped:item.gains<=-65}">
 				<span>
 					{{item.gains|number:2}}%
 				</span>
 			</div>
+			<div class="bnb" ng-if="main.sum && item.currency.symbol=='BNB'">
+				{{main.sum|number:2}} BNB
+			</div>
+			
 		</div>
 	</div>
 </div>
