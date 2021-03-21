@@ -1,7 +1,8 @@
 # Setup
 
 ## Create the settings file
-    Create a `settings.json` file at the root of the reposiroty:
+
+Create a `settings.json` file at the root of the reposiroty:
 
     {
         "wallet": "your BNB/metamask wallet address",
@@ -17,4 +18,11 @@
 
     npm install
     npm install -g electron
+
+## Start
+
     npm start
+
+## Screenshot
+
+![alt text](https://github.com/26medias/shitfolio/raw/main/src/screenshot.png "Screenshot")
