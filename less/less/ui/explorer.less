@@ -1,0 +1,56 @@
+﻿.explorer {
+    padding:10px;
+    & > div {
+        display: grid;
+        grid-template-columns: 120px 80px 250px;
+        grid-template-rows: auto;
+        grid-template-areas: 
+            "created symbol address"
+            "timeago symbol actions";
+        margin-bottom: 15px;
+        grid-gap: 5px;
+
+        & > div {
+            justify-self: stretch;
+            align-self: stretch;
+        }
+        & > .explorer_symbol {
+            grid-area: symbol;
+            font-size: 14px;
+            font-weight: 800;
+            color: #ffffff;
+        }
+        & > .explorer_created {
+            grid-area: created;
+            justify-self: end;
+            font-size: 10px;
+            font-weight: 300;
+            color: #a5a5a5;
+            text-align: right;
+        }
+        & > .explorer_createdAgo {
+            grid-area: timeago;
+            justify-self: end;
+            font-size: 10px;
+            font-weight: 400;
+            color: #a5a5a5;
+            text-align: right;
+        }
+        & > .explorer_address {
+            grid-area: address;
+            justify-self: end;
+            font-size: 9px;
+            font-weight: 300;
+            color: #d3d3d3;
+            text-align: left;
+        }
+        & > .explorer_actions {
+            grid-area: actions;
+            justify-self: end;
+            font-size: 9px;
+            font-weight: 300;
+            color: #d3d3d3;
+            text-align: left;
+        }
+    }
+}

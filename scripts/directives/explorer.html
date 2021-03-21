@@ -1,0 +1,62 @@
+<div class="ui-tabs">
+	<div>
+		<div class="ui-tab" ng-class="{active:tabs.is('recent')}" ng-click="tabs.select('recent')">
+			<span class="fas fa-clock"></span>
+			Recent
+		</div>
+		<div class="ui-tab" ng-class="{active:tabs.is('watchlist')}" ng-click="tabs.select('watchlist')">
+			<span class="fas fa-star"></span>
+			Favorites
+		</div>
+		<div class="ui-tab" ng-class="{active:tabs.is('all')}" ng-click="tabs.select('all')">
+			<span class="fas fa-coins"></span>
+			All
+		</div>
+		<div class="ui-tab" ng-click="main.refresh()">
+			<span ng-if="main.loading">
+				<span class="fas fa-spin fa-sync"></span>
+			</span>
+			<span ng-if="!main.loading">
+				<span class="fas fa-sync"></span>
+			</span>
+			
+		</div>
+	</div>
+</div>
+<div class="explorer">
+	<div ng-repeat="token in main.tokens">
+		<div class="explorer_symbol">
+			{{token.symbol}}
+		</div>
+		<div class="explorer_created">
+			{{token.ts|date:'medium'}}
+		</div>
+		<div class="explorer_createdAgo">
+			Created {{token.ts|timeago}}
+		</div>
+		<div class="explorer_address">
+			{{token.address}}
+		</div>
+		<div class="explorer_actions">
+			<div class="actions">
+				<div ng-click="core.explorer.star(token.symbol)">
+					<span ng-if="!core.explorer.data.watchlist[token.symbol]">
+						<span class="far fa-star"></span>
+					</span>
+					<span ng-if="core.explorer.data.watchlist[token.symbol]" style="color:#FFCA28;">
+						<span class="fas fa-star"></span>
+					</span>
+				</div>
+				<div ng-click="core.explorer.openChart(token.address)">
+					<span class="fas fa-chart-line"></span>
+				</div>
+				<div ng-click="core.explorer.openTokenInfo(token.address)">
+					<span class="fas fa-info"></span>
+				</div>
+				<div ng-click="core.explorer.openPancakeSwap(token.address)">
+					<span class="fas fa-shopping-cart"></span>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,23 @@
+{
+  ethereum(network: bsc) {
+    dexTrades(options: {limit: 1, desc: "block.timestamp.time"}, exchangeName: {is: "Pancake"}, baseCurrency: {is: "%baseCurrency%"}, quoteCurrency: {is: "%quoteCurrency%"}) {
+      block {
+        timestamp {
+          time(format: "%Y-%m-%d %H:%M:%S")
+        }
+      }
+      baseCurrency {
+        symbol
+        address
+      }
+      baseAmount
+      quoteCurrency {
+        symbol
+        address
+      }
+      quoteAmount
+      trades: count
+      quotePrice
+    }
+  }
+}

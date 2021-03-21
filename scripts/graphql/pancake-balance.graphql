@@ -1,0 +1,14 @@
+{
+  ethereum(network: bsc) {
+    address(address: {is: "%wallet%"}) {
+      balances {
+        currency {
+          address
+          symbol
+          tokenType
+        }
+        value
+      }
+    }
+  }
+}

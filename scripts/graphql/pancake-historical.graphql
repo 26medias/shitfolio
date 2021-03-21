@@ -1,0 +1,25 @@
+{
+  ethereum(network: bsc) {
+    dexTrades(options: {limit: 100, desc: "timeInterval.minute"}, exchangeName: {is: "Pancake"}, baseCurrency: {is: "%baseCurrency%"}, quoteCurrency: {is: "%quoteCurrency%"}) {
+      timeInterval {
+        minute(count: 5)
+      }
+      baseCurrency {
+        symbol
+        address
+      }
+      baseAmount
+      quoteCurrency {
+        symbol
+        address
+      }
+      quoteAmount
+      trades: count
+      quotePrice
+      maximum_price: quotePrice(calculate: maximum)
+      minimum_price: quotePrice(calculate: minimum)
+      open_price: minimum(of: block, get: quote_price)
+      close_price: maximum(of: block, get: quote_price)
+    }
+  }
+}

@@ -1,0 +1,101 @@
+<div>
+	
+	<!-- Window Header -->
+	<md-toolbar class="md-menu-toolbar" id="app-header" style="-webkit-app-region: drag">
+		<div layout="row">
+			<md-toolbar-filler layout layout-align="center center" class="md-primary">
+				<!--<span class="fas fa-laptop-code fa-2x"></span>-->
+				<img src="./icon.png" style="width:100%" />
+			</md-toolbar-filler>
+			<div>
+				<h2 class="md-toolbar-tools">
+					💩 Shitfolio
+				</h2>
+				<md-menu-bar style="-webkit-app-region: no-drag">
+					<md-menu ng-repeat="section in core.menu.sections">
+						<button ng-click="$mdMenu.open()">
+							{{section.name}}
+						</button>
+						<md-menu-content>
+							<md-menu-item ng-repeat="item in section.items">
+								<md-button ng-click="item.onClick()">
+									<md-icon md-font-icon="{{item.icon}}"></md-icon>
+									{{item.label}}
+									<code ng-if="item.tag">{{item.tag}}</code>
+								</md-button>
+							</md-menu-item>
+						</md-menu-content>
+					</md-menu>
+				</md-menu-bar>
+			</div>
+		</div>
+	</md-toolbar>
+	
+	<!-- Minimize, Maximize, Close, DevTools -->
+	<div class="window-controls" style="-webkit-app-region: no-drag">
+		<div>
+			<div class="minimize" ng-click="main.winMinimize()">
+				<md-icon md-font-icon="fas fa-minus" aria-label="Minimize" class="md-secondary md-hue-3" ></md-icon>
+			</div>
+			<div class="maximize" ng-click="main.winMaximize()">
+				<md-icon md-font-icon="fas fa-window-restore" aria-label="Maximize" class="md-secondary md-hue-3" ></md-icon>
+			</div>
+			<div class="close" ng-click="main.winClose()">
+				<md-icon md-font-icon="fas fa-times" aria-label="Close App" class="md-secondary md-hue-3" ></md-icon>
+			</div>
+			<div class="devTools" ng-click="main.winDebug()">
+				<md-icon md-font-icon="fas fa-code" aria-label="Debug" class="md-secondary md-hue-3" ></md-icon>
+			</div>
+		</div>
+	</div>
+	
+	
+	<!-- App Content -->
+	<md-content>
+		
+		<div layout="row" layout-align="center center" ng-if="main.loading" style="height:{{core.contentHeight}}px">
+			<md-progress-circular md-mode="indeterminate"></md-progress-circular>
+		</div>
+		
+		<!-- Home -->
+		<div app-home ng-if="!main.loading && core.page=='home'"></div>
+		
+	</<md-content>
+	
+	<!-- Dialog: Promp -->
+	<div class="app-dialog" ng-if="core.dialog.status['prompt']" ng-class="{front:core.dialog.front=='prompt'}">
+		<div class="bg"></div>
+		<div class="overlay">
+			<div>
+				<div class="dialog-close" ng-click="core.dialog.close('prompt')">
+					Close <span class="fas fa-times"></span>
+				</div>
+				<div>
+					<div class="app-dialog-box">
+						<div class="header">
+							{{core.dialog.payload['prompt'].title}}
+						</div>
+						<div class="body" style="max-height:500px;overflow-y:auto;">
+							<table>
+								<tbody>
+									<tr>
+										<td>
+											{{core.dialog.payload['prompt'].prompt}}
+										</td>
+										<td>
+											<input type="text" ng-model="core.dialog.payload['prompt'].value" />
+										</td>
+									</tr>
+								</tbody>
+							</table>
+							<md-button class="" ng-click="core.dialog.payload['prompt'].callback(core.dialog.payload['prompt'].value)">
+								<md-icon md-font-icon="fas fa-save"></md-icon> Save
+							</md-button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+</div>

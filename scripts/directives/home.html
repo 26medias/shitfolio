@@ -1,0 +1,23 @@
+<div class="home-layout" style="height:{{core.contentHeight}}px">
+	<div class="status">
+		<span ng-if="core.explorer.loading">
+			<span class="fas fa-spin fa-spinner"></span> Explorer refreshing...
+		</span>
+		<span ng-if="core.explorer.last_refresh">
+			Explorer Updated {{core.explorer.last_refresh|timeago}}
+		</span>
+		<span>
+			- 
+		</span>
+		<span ng-if="core.portfolio.loading">
+			<span class="fas fa-spin fa-spinner"></span> Portfolio refreshing...
+		</span>
+		<span ng-if="core.portfolio.last_refresh">
+			Portfolio Updated {{core.portfolio.last_refresh|timeago}}
+		</span>
+	</div>
+	<div class="home_balance" 		ui-balance></div>
+	<div class="home_transactions" 	ui-transactions></div>
+	<div class="home_explorer" 		ui-explorer></div>
+	<div class="home_iframe" 		ui-iframe></div>
+</div>

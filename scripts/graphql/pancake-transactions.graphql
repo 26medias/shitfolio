@@ -1,0 +1,52 @@
+{
+  ethereum(network: bsc) {
+    dexTrades(
+      options: {limit: 2000, desc: "block.height"}
+      exchangeName: {is: "Pancake"}
+      baseCurrency: {is: "0xbb4cdb9cbd36b01bd1cbaebf2de08d9173bc095c"}
+      txSender: {is: "%wallet%"}
+    ) {
+      transaction {
+        hash
+      }
+      smartContract {
+        address {
+          address
+        }
+        contractType
+        currency {
+          name
+        }
+      }
+      tradeIndex
+      date {
+        date
+      }
+      block {
+        height
+        timestamp {
+          unixtime
+        }
+      }
+      buyAmount
+      buyAmountInUsd: buyAmount(in: USD)
+      buyCurrency {
+        symbol
+        address
+      }
+      sellAmount
+      sellAmountInUsd: sellAmount(in: USD)
+      sellCurrency {
+        symbol
+        address
+      }
+      sellAmountInUsd: sellAmount(in: USD)
+      tradeAmount(in: USD)
+      transaction {
+        gasValue
+        gasPrice
+        gas
+      }
+    }
+  }
+}

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+    <title>💩 Shitfolio - Shitcoin Portfolio Tracker</title>
+
+	<!--<script src="https://code.jquery.com/jquery-3.4.1.min.js" type="text/javascript"></script>-->
+	<script>window.$ = window.jQuery = require('./scripts/static/jquery-3.4.1.min.js');</script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js" type="text/javascript"></script>
+	<script defer src="https://use.fontawesome.com/releases/v5.8.1/js/all.js" integrity="sha384-g5uSoOSBd7KkhAMlnQILrecXvzst9TdC09/VM+pjDTCM+1il8RHz5fKANTFFb+gQ" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', {'packages':['imagesparkline']});
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
+	
+    <link rel="stylesheet" href="node_modules/angular-material/angular-material.min.css"/>
+    <link rel="stylesheet" href="scripts/static/ui.css"/>
+    <link rel="stylesheet" href="scripts/static/toastr.min.css"/>
+
+    <script src="node_modules/angular/angular.min.js"></script>
+    <script src="node_modules/angular-route/angular-route.min.js"></script>
+    <script src="node_modules/angular-animate/angular-animate.min.js"></script>
+    <script src="node_modules/angular-aria/angular-aria.min.js"></script>
+    <script src="node_modules/angular-material/angular-material.min.js"></script>
+	
+	<script src="scripts/static/sha-256.js" type="text/javascript"></script>
+	<script src="scripts/static/jsonformatter.js" type="text/javascript"></script>
+	<script src="scripts/static/aes.js" type="text/javascript"></script>
+	<script src="scripts/static/sha1.js" type="text/javascript"></script>
+	<script src="scripts/static/pstack.js" type="text/javascript"></script>
+	<script src="scripts/static/arbiter.js" type="text/javascript"></script>
+	<script src="scripts/static/toastr.min.js" type="text/javascript"></script>
+    
+    <script src="scripts/static/core.js"></script>
+    <script src="scripts/app.js"></script>
+    <script src="scripts/app/layout.js"></script>
+    <script src="scripts/directives/home.js"></script>
+    <script src="scripts/directives/balance.js"></script>
+    <script src="scripts/directives/transactions.js"></script>
+    <script src="scripts/directives/explorer.js"></script>
+    <script src="scripts/directives/iframe.js"></script>
+    <script src="scripts/directives/sparkline.js"></script>
+    
+</head>
+<body>
+<div class="page-container">
+    <ng-view class="page">
+        <h1>Loading...</h1>
+    </ng-view>
+</div>
+</body>
+</html>

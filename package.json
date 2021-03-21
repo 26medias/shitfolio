@@ -1,0 +1,49 @@
+{
+	"name": "shitfolio",
+	"version": "1.0.0",
+	"description": "A portfolio tracker for BEP-20 (pancakeswap) shitcoins",
+	"main": "main.js",
+	"scripts": {
+		"start": "electron main.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/26medias/shitfolio.git"
+	},
+	"keywords": [],
+	"author": "Julien Loutre",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/26medias/shitfolio/issues"
+	},
+	"homepage": "https://github.com/26medias/shitfolio",
+	"devDependencies": {
+		"angular": "^1.5.7",
+		"angular-animate": "^1.5.7",
+		"angular-aria": "^1.5.7",
+		"angular-material": "^1.0.9",
+		"angular-route": "^1.5.7",
+		"asar": "^0.11.0",
+		"electron-cookies": "heap/electron-cookies",
+		"electron-packager": "^7.0.4",
+		"electron-rebuild": "^1.10.1",
+		"grunt": "^1.0.1",
+		"grunt-comment-toggler": "^0.2.2",
+		"grunt-contrib-copy": "^1.0.0",
+		"grunt-contrib-uglify": "^1.0.1",
+		"grunt-search": "^0.1.8",
+		"jquery": "^3.4.1"
+	},
+	"dependencies": {
+		"ansi-to-html": "^0.6.14",
+		"body-parser": "latest",
+		"cors": "latest",
+		"electron": "^8.2.1",
+		"electron-cookies": "heap/electron-cookies",
+		"express": "latest",
+		"firebase-admin": "^9.5.0",
+		"fs-tool": "0.0.14",
+		"selective-whitespace": "latest",
+		"underscore": "latest"
+	}
+}

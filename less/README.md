@@ -1,0 +1,1 @@
+lessc less/ui.less ../scripts/static/ui.css

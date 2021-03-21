@@ -1,0 +1,33 @@
+<div>
+	<div class="transactions">
+		<div ng-repeat="item in core.portfolio.data.positions" ng-class="{sell:item.buyCurrency.symbol!='WBNB',buy:item.buyCurrency.symbol=='WBNB'}">
+			<div class="position_type">
+				{{item.buyCurrency.symbol=="WBNB"?'BUY':'SELL'}}
+			</div>
+			<div class="date">
+				{{item.block.timestamp.unixtime*1000|date:'medium'}}
+			</div>
+			<div class="symbol" ng-if="item.buyCurrency.symbol!='WBNB'">
+				{{item.buyCurrency.symbol}}
+			</div>
+			<div class="symbol" ng-if="item.buyCurrency.symbol=='WBNB'">
+				{{item.sellCurrency.symbol}}
+			</div>
+			<div class="arrow">
+				<span class="fas fa-chevron-right"></span>
+			</div>
+			<div class="value" ng-if="item.buyCurrency.symbol!='WBNB'">
+				{{item.buyAmount|largenumber:5}}
+			</div>
+			<div class="value" ng-if="item.buyCurrency.symbol=='WBNB'">
+				{{item.sellAmount|largenumber:5}}
+			</div>
+			<div class="bnb_value" ng-if="item.buyCurrency.symbol=='WBNB'">
+				{{item.buyAmount|largenumber:5}} BNB
+			</div>
+			<div class="bnb_value" ng-if="item.buyCurrency.symbol!='WBNB'">
+				{{item.sellAmount|largenumber:5}} BNB
+			</div>
+		</div>
+	</div>
+</div>

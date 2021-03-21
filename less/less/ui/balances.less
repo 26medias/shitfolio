@@ -1,0 +1,63 @@
+﻿.balance {
+    width: 310px;
+    padding:10px;
+    & > div {
+        display: grid;
+        grid-template-columns: 80px 160px 60px;
+        grid-template-rows: auto;
+        grid-template-areas: 
+            "symbol sparkline bnb"
+            "value sparkline gains";
+        margin:         5px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+
+        & > div {
+            justify-self: stretch;
+            align-self: stretch;
+        }
+        & > .symbol {
+            grid-area: symbol;
+            font-size: 14px;
+            font-weight: 800;
+            color: #ffffff;
+            &.positive {
+                color: #4CAF50;
+            }
+            &.negative {
+                color: #f31c1c;
+            }
+            &.high {
+                color: rgba(33,150,243 ,1);
+            }
+        }
+        & > .value {
+            grid-area: value;
+            font-size: 10px;
+            font-weight: 300;
+            color: #a5a5a5;
+        }
+        & > .sparkline {
+            grid-area: sparkline;
+        }
+        & > .bnb {
+            grid-area: bnb;
+            font-size: 11px;
+            font-weight: 400;
+            color: #a5a5a5;
+            text-align: right;
+        }
+        & > .gains {
+            grid-area: gains;
+            font-size: 10px;
+            font-weight: 300;
+            color: #4CAF50;
+            text-align: right;
+            &.negative {
+                color: #f31c1c;
+            }
+            &.high {
+                color: rgba(33,150,243 ,1);
+            }
+        }
+    }
+}

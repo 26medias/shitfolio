@@ -1,0 +1,69 @@
+﻿.transactions {
+    padding: 5px;
+    & > div {
+        margin-bottom: 10px;
+        display: grid;
+        grid-template-columns: 130px 80px 50px 40px;
+        grid-template-rows: auto;
+        grid-template-areas: 
+            "position_type symbol arrow bnb_value"
+            "date          value  arrow bnb_value";
+
+        & > div {
+            justify-self: stretch;
+            align-self: stretch;
+        }
+        .position_type {
+            grid-area: position_type;
+            font-size: 14px;
+            font-weight: 800;
+            color: #ffffff;
+        }
+        .date {
+            grid-area: date;
+            font-size: 9px;
+            font-weight: 300;
+            color: #a5a5a5;
+        }
+        .symbol {
+            grid-area: symbol;
+            font-size: 14px;
+            font-weight: 800;
+            color: #ffffff;
+        }
+        .value {
+            grid-area: value;
+            font-size: 10px;
+            font-weight: 300;
+            color: #a5a5a5;
+        }
+        .arrow {
+            grid-area: arrow;
+            font-size: 14px;
+            font-weight: 800;
+            color: #ffffff;
+        }
+        .bnb_value {
+            grid-area: bnb_value;
+            font-size: 14px;
+            font-weight: 800;
+            color: #ffffff;
+        }
+        &.buy {
+            .position_type, .symbol {
+                color: #4CAF50;
+            }
+            .bnb_value {
+                color: #c62828;
+            }
+        }
+        &.sell {
+            .position_type, .symbol, .bnb_value {
+                color: #c62828;
+            }
+            .bnb_value {
+                color: #4CAF50;
+            }
+        }
+    }
+}

@@ -1,0 +1,74 @@
+@color_1: red;
+@color_2: blue;
+@color_3: green;
+@color_4: rgb(249, 39, 83);
+@color_5: transparent;
+@color_6: #A52A2A;
+@font_family_1: monospace;
+@background_color_1: #F7E8E8;
+
+.angular-json-explorer {
+	.hidden {
+		display: none;
+	}
+	.prop {
+		font-weight: bold;
+	}
+	.null {
+		color: @color_1;
+	}
+	.bool {
+		color: @color_2;
+	}
+	.num {
+		color: @color_2;
+	}
+	.string {
+		color: @color_3;
+		white-space: pre-wrap;
+	}
+	.collapser {
+		position: absolute;
+		left: -1em;
+		cursor: pointer;
+		-moz-user-select: none;
+		color: @color_4;
+		text-decoration: none;
+	}
+	.q {
+		display: inline-block;
+		width: 0px;
+		color: @color_5;
+	}
+	li {
+		position: relative;
+	}
+	.error {
+		-moz-border-radius: 8px;
+		border: 1px solid #970000;
+		background-color: @background_color_1;
+		margin: .5em;
+		padding: .5em;
+	}
+	.errormessage {
+		font-family: @font_family_1;
+	}
+	font-family: @font_family_1;
+	font-size: 1.1em;
+	white-space: pre-wrap;
+	ul {
+		list-style: none;
+		margin: 0 0 0 2em;
+		padding: 0;
+	}
+	h1 {
+		font-size: 1.2em;
+	}
+	.callback {
+		&+#json {
+			padding-left: 1em;
+		}
+		font-family: @font_family_1;
+		color: @color_6;
+	}
+}
