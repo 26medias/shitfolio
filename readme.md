@@ -25,4 +25,4 @@ Create a `settings.json` file at the root of the reposiroty:
 
 ## Screenshot
 
-![alt text](https://github.com/26medias/shitfolio/raw/main/src/screenshot.png "Screenshot")
+![Screenshot](https://github.com/26medias/shitfolio/blob/main/screenshot.png?raw=true)
