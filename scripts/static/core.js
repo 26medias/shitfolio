@@ -675,6 +675,9 @@
 			
 			stack.start(function() {
 				window.ftl.portfolio.data.balances = bufferBalance;
+				window.ftl.portfolio.data.balances.sort(function(a, b) {
+					return b.gains-a.gains;
+				})
 				window.ftl.portfolio.last_refresh = new Date();
 				window.ftl.portfolio.loading = false;
 				if (callback) {
@@ -797,16 +800,16 @@
 				})*/
 				_.each(bufferBalance, function(item, n) {
 					if (ledger[item.currency.symbol]) {
-						if (!ledger[item.currency.symbol].sold) {
-							bufferBalance[n].gains = ((item.bnbValue-ledger[item.currency.symbol].avg.sum)/ledger[item.currency.symbol].avg.sum)*100;
-						}
+						//if (!ledger[item.currency.symbol].sold) {
+						bufferBalance[n].gains = ((item.bnbValue-ledger[item.currency.symbol].avg.sum)/ledger[item.currency.symbol].avg.sum)*100;
+						//}
 						bufferBalance[n].sold = !!ledger[item.currency.symbol].sold;
 					}
 				})
 
 				// Sort the balances by highest value
 				//window.ftl.portfolio.data.balances.sort(function(a, b) {
-					bufferBalance.sort(function(a, b) {
+				bufferBalance.sort(function(a, b) {
 					return b.bnbValue-a.bnbValue;
 				})
 
