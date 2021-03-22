@@ -373,11 +373,15 @@
 			});
 
 			stack.add(function(done) {
+				window.ftl.explorer.init(done);
+			});
+
+			stack.add(function(done) {
 				window.ftl.portfolio.init(done);
 			});
 
 			stack.add(function(done) {
-				window.ftl.explorer.init(done);
+				window.ftl.discoverer.init(done);
 			});
 			
 			// Test BSC
@@ -640,9 +644,15 @@
 			window.ftl.portfolio.refreshAll(callback);
 			setInterval(function() {
 				window.ftl.portfolio.refreshAll();
-			}, 15000);
+			}, 30000);
 		},
 		refreshAll:	function(callback) {
+			if (window.ftl.portfolio.loading) {
+				if (callback) {
+					callback();
+				}
+				return false;
+			}
 			window.ftl.portfolio.loading = true;
 
 			var stack		= new pstack({});
@@ -676,6 +686,9 @@
 			stack.start(function() {
 				window.ftl.portfolio.data.balances = bufferBalance;
 				window.ftl.portfolio.data.balances.sort(function(a, b) {
+					if (a.currency.symbol=='BNB') {
+						return -1;
+					}
 					return b.gains-a.gains;
 				})
 				window.ftl.portfolio.last_refresh = new Date();
@@ -1004,6 +1017,72 @@
 				window.ftl.explorer.data.watchlist = data;
 			}, function() {
 				
+			});
+		}
+	}
+
+
+	/* Coin Discoverer */
+	window.ftl.discoverer = {
+		lastBlock:	0,	// Last block investigated
+		tokens:		{}, // All the known tokens
+		init:	function(callback) {
+			console.log("Discoverer init")
+			window.ftl.data.read('new_tokens', function(data) {
+				if (!data) {
+					data = {};
+				}
+				window.ftl.discoverer.tokens = data;
+				window.ftl.discoverer.refresh(callback);
+				/*setInterval(function() {
+					window.ftl.discoverer.refresh();
+				}, 1000*30);*/
+			});
+		},
+		refresh:	function(callback) {
+			if (window.ftl.discoverer.lastBlock==0) {
+				window.ftl.bitquery.exec('pancake-new-tokens', {}, function(response) {
+					window.ftl.discoverer.processTokens(response, callback);
+				})
+			} else {
+				window.ftl.bitquery.exec('pancake-new-tokens-after-block', {
+					blockheight: window.ftl.discoverer.lastBlock
+				}, function(response) {
+					window.ftl.discoverer.processTokens(response, callback);
+				})
+			}
+		},
+		processTokens:	function(response, callback) {
+			var list = response.data.ethereum.arguments;
+			console.log("discoverer", list);
+			var new_tokens = {};
+			_.each(list, function(item) {
+				var type 		= item.argument.name;
+				var name 		= item.reference.smartContract.currency.name;
+				var address		= item.reference.address;
+				var ignoreList 	= ['Wrapped BNB','BUSD Token','PancakeSwap Token','Tether USD','-'];
+				if (!_.contains(ignoreList, name) && !window.ftl.discoverer.tokens[address]) {
+					new_tokens[address] = {
+						type:		type,
+						name:		name,
+						address:	address,
+						created:	item.block.timestamp.unixtime
+					}
+				}
+			});
+
+			//window.ftl.discoverer.tokens[address]
+
+			window.ftl.data.update('new_tokens', function(data, update) {
+				if (!data) {
+					data = {}
+				}
+				data = _.extend(data, new_tokens)
+				update(data);
+			}, function() {
+				if (callback) {
+					callback();
+				}
 			});
 		}
 	}

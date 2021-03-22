@@ -46,6 +46,7 @@
 			$scope.main = {
 				init:	function() {
 					var sum = 0;
+					console.log("balance", $scope.core.portfolio.data.balances);
 					_.each($scope.core.portfolio.data.balances, function(item) {
 						if (item.currency.cumbol != 'BNB' && item.bnbValue && item.gains>=-65) {
 							sum += item.bnbValue

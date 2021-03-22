@@ -37,13 +37,15 @@
 						var tokenList = 'watchlist';
 					} else if ($scope.tabs.is('all')) {
 						var tokenList = 'tokens';
+					} else if ($scope.tabs.is('purchased')) {
+						var tokenList = 'tokens';
 					}
 					
 					$scope.main.tokens = _.map($scope.core.explorer.data[tokenList], function(data, symbol) {
 						return _.extend(data, {symbol: symbol, ts: new Date(data.created).getTime()-(1000*60*60*4)});
 					})
 					
-					if ($scope.tabs.is('all')) {
+					if ($scope.tabs.is('all') || $scope.tabs.is('purchased') || $scope.tabs.is('watchlist')) {
 						$scope.main.tokens.sort(function(a,b) {
 							return b.symbol>a.symbol?-1:1;
 						});
@@ -56,6 +58,16 @@
 						$scope.main.tokens = _.filter($scope.main.tokens, function(item) {
 							return new Date().getTime()-item.ts <= 1000*60*60*3;
 						});
+					}
+					if ($scope.tabs.is('purchased')) {
+						var purchased = _.map($scope.core.portfolio.data.balances, function(item) {
+							return item.currency.address;
+						});
+						//console.log("purchased", purchased);
+						$scope.main.tokens = _.filter($scope.main.tokens, function(item) {
+							return _.contains(purchased, item.address)
+						});
+						//console.log("$scope.main.tokens", $scope.main.tokens);
 					}
 					//console.log("$scope.main.tokens", $scope.main.tokens);
 				},

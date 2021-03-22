@@ -25,7 +25,6 @@
 				init:	function() {
 					$scope.main.destroy();
 					var data = [['']];
-					console.log("$scope.uiSparkline", $scope.uiSparkline)
 					$scope.uiSparkline.sort(function(a,b) {
 						return new Date(a.timeInterval.minute).getTime()-new Date(b.timeInterval.minute).getTime()
 					});

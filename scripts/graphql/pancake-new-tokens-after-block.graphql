@@ -1,0 +1,30 @@
+{
+  ethereum(network: bsc) {
+    arguments(
+      smartContractAddress: {is: "0xBCfCcbde45cE874adCB698cC183deBcF17952812"}
+      smartContractEvent: {is: "PairCreated"}
+      argument: {not: "pair"}
+      options: {desc: "block.height", limit: 100}
+      height: {gteq: %blockheight%}
+    ) {
+      block {
+        height
+        timestamp {
+          unixtime
+        }
+      }
+      argument {
+        name
+        type
+      }
+      reference {
+        address
+        smartContract {
+          currency {
+            name
+          }
+        }
+      }
+    }
+  }
+}

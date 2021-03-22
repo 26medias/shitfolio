@@ -1,6 +1,6 @@
 {
   ethereum(network: bsc) {
-    dexTrades(options: {limit: 50, desc: "block.height"},
+    dexTrades(options: {limit: 500, desc: "block.height"},
       exchangeName: {is: "Pancake"}) {
       transaction {
         hash
