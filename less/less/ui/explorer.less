@@ -2,11 +2,11 @@
     padding:10px;
     & > div {
         display: grid;
-        grid-template-columns: 120px 80px 250px;
+        grid-template-columns: 150px 150px 250px;
         grid-template-rows: auto;
         grid-template-areas: 
-            "created symbol address"
-            "timeago symbol actions";
+            "symbol sparkline address"
+            "timeago sparkline actions";
         margin-bottom: 15px;
         grid-gap: 5px;
 
@@ -16,11 +16,13 @@
         }
         & > .explorer_symbol {
             grid-area: symbol;
+            justify-self: start;
             font-size: 14px;
             font-weight: 800;
             color: #ffffff;
         }
         & > .explorer_created {
+            display: none;
             grid-area: created;
             justify-self: end;
             font-size: 10px;
@@ -30,7 +32,7 @@
         }
         & > .explorer_createdAgo {
             grid-area: timeago;
-            justify-self: end;
+            justify-self: start;
             font-size: 10px;
             font-weight: 400;
             color: #a5a5a5;
@@ -51,6 +53,9 @@
             font-weight: 300;
             color: #d3d3d3;
             text-align: left;
+        }
+        & > .explorer_sparkline {
+            grid-area: sparkline;
         }
     }
 }

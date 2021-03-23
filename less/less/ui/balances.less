@@ -6,8 +6,9 @@
         grid-template-columns: 80px 160px 60px;
         grid-template-rows: auto;
         grid-template-areas: 
-            "symbol sparkline bnb"
-            "value sparkline gains";
+            "symbol sparkline actions"
+            "value sparkline bnb"
+            "_ sparkline gains";
         margin:         5px 0;
         border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 
@@ -32,6 +33,9 @@
             &.dumped {
                 color: #741010;
             }
+        }
+        & > .balance_actions {
+            grid-area: actions;
         }
         & > .value {
             grid-area: value;

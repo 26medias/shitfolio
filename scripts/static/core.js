@@ -1,3 +1,5 @@
+const { SlowBuffer } = require('buffer');
+
 (function() {
 	
 	var electron	= require('electron');
@@ -643,6 +645,9 @@
 		init:	function(callback) {
 			window.ftl.portfolio.refreshAll(callback);
 			setInterval(function() {
+				if (window.ftl.paused) {
+					return false;
+				}
 				window.ftl.portfolio.refreshAll();
 			}, 30000);
 		},
@@ -730,9 +735,11 @@
 						}, function(response) {
 
 							charts[item.currency.symbol] = response.data.ethereum.dexTrades;
-							//window.ftl.portfolio.data.balances[n].bnbValue = item.value * parseFloat(charts[item.currency.symbol][0].close_price)
-							bufferBalance[n].bnbValue = item.value * parseFloat(charts[item.currency.symbol][0].close_price)
-							//console.log(item.currency.symbol, window.ftl.portfolio.data.balances[n].bnbValue);
+							if (charts[item.currency.symbol] && charts[item.currency.symbol].length>0) {
+								//window.ftl.portfolio.data.balances[n].bnbValue = item.value * parseFloat(charts[item.currency.symbol][0].close_price)
+								bufferBalance[n].bnbValue = item.value * parseFloat(charts[item.currency.symbol][0].close_price)
+								//console.log(item.currency.symbol, window.ftl.portfolio.data.balances[n].bnbValue);
+							}
 							done();
 						})
 					});
@@ -756,7 +763,7 @@
 					return a.block.timestamp.unixtime-b.block.timestamp.unixtime;
 				});
 				window.ftl.portfolio.data.positions = response.data.ethereum.dexTrades;
-
+				console.log("window.ftl.portfolio.data.positions", window.ftl.portfolio.data.positions);
 				// Calculate how much we invested, sold & avg price
 				var ledger = {}
 				_.each(response.data.ethereum.dexTrades, function(item) {
@@ -865,6 +872,9 @@
 			console.log("Explorer init")
 			window.ftl.explorer.refreshAll(callback);
 			setInterval(function() {
+				if (window.ftl.paused) {
+					return false;
+				}
 				window.ftl.explorer.recentTrades();
 			}, 1000*30);
 		},
@@ -894,9 +904,9 @@
 			});
 			
 			// Get the current balance
-			stack.add(function(done) {
+			/*stack.add(function(done) {
 				window.ftl.explorer.recentTrades(done);
-			});
+			});*/
 			
 			stack.start(function() {
 				window.ftl.explorer.last_refresh = new Date();
@@ -991,15 +1001,19 @@
 			window.Arbiter.inform('iframe.load', 'https://unidexbeta.app/bscCharting?token='+addr);
 		},
 		openTokenInfo:	function(addr) {
-			window.ftl.openLink('https://bscscan.com/token/'+addr);
+			window.ftl.openLink('https://bscscan.com/token/'+addr+'#balances');
 			//window.Arbiter.inform('iframe.load', 'https://bscscan.com/token/'+addr);
 		},
 		openTokenContract:	function(addr) {
-			window.ftl.openLink('https://bscscan.com/address/'+addr);
+			window.ftl.openLink('https://bscscan.com/address/'+addr+'#code');
 			//window.Arbiter.inform('iframe.load', 'https://bscscan.com/token/'+addr);
 		},
 		openPancakeSwap:	function(addr) {
 			window.ftl.openLink('https://exchange.pancakeswap.finance/#/swap?inputCurrency=BNB&outputCurrency='+addr);
+		},
+		openTransactionDetails:	function(addr) {
+			window.ftl.openLink('https://bscscan.com/tx/'+addr+'');
+			//window.Arbiter.inform('iframe.load', 'https://bscscan.com/token/'+addr);
 		},
 		star:	function(symbol) {
 			window.ftl.data.update('watchlist', function(data, update) {
@@ -1034,24 +1048,29 @@
 				}
 				window.ftl.discoverer.tokens = data;
 				window.ftl.discoverer.refresh(callback);
-				/*setInterval(function() {
+				setInterval(function() {
 					window.ftl.discoverer.refresh();
-				}, 1000*30);*/
+				}, 1000*30);
 			});
 		},
 		refresh:	function(callback) {
+			window.ftl.discoverer.loading = true;
 			if (window.ftl.discoverer.lastBlock==0) {
 				window.ftl.bitquery.exec('pancake-new-tokens', {}, function(response) {
+					window.ftl.discoverer.loading = false;
+					window.ftl.discoverer.lastBlock = response.data.ethereum.arguments[0].block.height;
 					window.ftl.discoverer.processTokens(response, callback);
 				})
 			} else {
 				window.ftl.bitquery.exec('pancake-new-tokens-after-block', {
 					blockheight: window.ftl.discoverer.lastBlock
 				}, function(response) {
+					window.ftl.discoverer.loading = false;
 					window.ftl.discoverer.processTokens(response, callback);
 				})
 			}
 		},
+		// Process the graphql response
 		processTokens:	function(response, callback) {
 			var list = response.data.ethereum.arguments;
 			console.log("discoverer", list);
@@ -1070,19 +1089,36 @@
 					}
 				}
 			});
-
-			//window.ftl.discoverer.tokens[address]
-
 			window.ftl.data.update('new_tokens', function(data, update) {
 				if (!data) {
 					data = {}
 				}
 				data = _.extend(data, new_tokens)
+				window.ftl.discoverer.tokens = data;
 				update(data);
 			}, function() {
 				if (callback) {
 					callback();
 				}
+			});
+		},
+		// Download the token data & return data of interest
+		parseToken:	function(address) {
+			var stack		= new pstack({});
+			
+			// Get the contract from binance
+			stack.add(function(done) {
+				window.ftl.bsc.fetch({
+					module:		"contract",
+					action:		"getabi",
+					address:	address
+				}, function(response) {
+					console.log("getsourcecode", response)
+				})
+			});
+			
+			stack.start(function() {
+				
 			});
 		}
 	}

@@ -5,16 +5,29 @@
 				{{item.currency.symbol}}
 				<span class="tag red" ng-if="item.sold">SOLD</span>
 			</div>
+			<div class="balance_actions">
+				<div class="actions">
+					<div ng-click="core.explorer.openTokenInfo(item.currency.address)">
+						<span class="fas fa-info"></span>
+					</div>
+					<div ng-click="core.explorer.openTokenContract(item.currency.address)">
+						<span class="fas fa-file-contract"></span>
+					</div>
+					<div ng-click="core.explorer.openPancakeSwap(item.currency.address)">
+						<span class="fas fa-shopping-cart"></span>
+					</div>
+				</div>
+			</div>
 			<div class="value">
 				{{item.value|largenumber:2}}
 			</div>
 			<div class="sparkline">
 				<div ui-sparkline="core.portfolio.data.charts[item.currency.symbol]" ng-if="item.currency.symbol!='BNB'"></div>
 			</div>
-			<div class="bnb" ng-if="item.bnbValue">
+			<div class="bnb" ng-if="item.bnbValue" ng-click="core.explorer.openPancakeSwap(item.currency.address)">
 				{{item.bnbValue|number:2}} BNB
 			</div>
-			<div class="gains" ng-if="item.gains" ng-class="{high:item.gains>50, positive:item.gains>0&&item.gains<50, low:item.gains<=0&&item.gains>-30, negative:item.gains<=-30&&item.gains>-65, dumped:item.gains<=-65}">
+			<div class="gains" ng-if="item.gains" ng-class="{high:item.gains>50, positive:item.gains>0&&item.gains<50, low:item.gains<=0&&item.gains>-30, negative:item.gains<=-30&&item.gains>-65, dumped:item.gains<=-65}" ng-click="core.explorer.openPancakeSwap(item.currency.address)">
 				<span>
 					{{item.gains|number:2}}%
 				</span>

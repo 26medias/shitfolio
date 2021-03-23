@@ -2,12 +2,12 @@
 	margin-bottom:25px;
 	width:	100%;
 	display: grid;
-	grid-template-rows: auto auto 20px;
-	grid-template-columns: 500px auto 350px;
+	grid-template-rows: 40px auto 20px;
+	grid-template-columns: auto 350px;
 	grid-template-areas: 
-		"explorer iframe balance"
-		"explorer iframe transactions"
-		"status status status";
+		"iframe tabs"
+		"iframe sidebar"
+		"status status";
 	.status {
 		grid-area: status;
 		justify-self: center;
@@ -15,31 +15,22 @@
 		font-size: 11px;
 		color: #a5a5a5;
 	}
-	.home_balance {
-		grid-area: balance;
-		justify-self: stretch;
-    	align-self: stretch;
-	}
-	.home_transactions {
-		grid-area: transactions;
+	.home_sidebar {
+		grid-area: sidebar;
 		justify-self: stretch;
     	align-self: stretch;
 		max-height: 100%;
 		overflow-y: auto;
 	}
-	.home_explorer {
-		grid-area: explorer;
+	.ui-tabs {
+		grid-area: tabs;
 		justify-self: stretch;
     	align-self: stretch;
-		max-height: 100%;
-		overflow-y: auto;
 	}
 	.home_iframe {
 		grid-area: iframe;
 		justify-self: stretch;
     	align-self: stretch;
-		max-height: 100%;
-		overflow-y: auto;
 
 		.iframe {
 			width: 100%;
@@ -47,23 +38,12 @@
 			border: 1px solid #508ED7;
 		}
 	}
-	@media (max-width: 1200px) {
-		grid-template-rows: auto auto 20px;
-		grid-template-columns: auto 350px;
-		grid-template-areas: 
-			"explorer balance"
-			"explorer transactions"
-			"status status";
-		.home_iframe {
-			display: none;
-		}
-	}
-	@media (max-width: 900px) {
+	@media (max-width: 500px) {
 		grid-template-rows: auto auto 20px;
 		grid-template-columns: auto;
 		grid-template-areas: 
-			"balance"
-			"transactions"
+			"tabs"
+			"sidebar"
 			"status";
 		
 		.home_iframe, .home_explorer {

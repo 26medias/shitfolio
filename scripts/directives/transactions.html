@@ -7,10 +7,10 @@
 			<div class="date">
 				{{item.block.timestamp.unixtime*1000|date:'medium'}}
 			</div>
-			<div class="symbol" ng-if="item.buyCurrency.symbol!='WBNB'">
+			<div class="symbol" ng-if="item.buyCurrency.symbol!='WBNB'" ng-click="core.explorer.openChart(item.buyCurrency.address)">
 				{{item.buyCurrency.symbol}}
 			</div>
-			<div class="symbol" ng-if="item.buyCurrency.symbol=='WBNB'">
+			<div class="symbol" ng-if="item.buyCurrency.symbol=='WBNB'" ng-click="core.explorer.openChart(item.sellCurrency.address)">
 				{{item.sellCurrency.symbol}}
 			</div>
 			<div class="arrow">
@@ -22,10 +22,10 @@
 			<div class="value" ng-if="item.buyCurrency.symbol=='WBNB'">
 				{{item.sellAmount|largenumber:5}}
 			</div>
-			<div class="bnb_value" ng-if="item.buyCurrency.symbol=='WBNB'">
+			<div class="bnb_value" ng-if="item.buyCurrency.symbol=='WBNB'" ng-click="core.explorer.openTransactionDetails(item.transaction.hash)">
 				{{item.buyAmount|largenumber:5}} BNB
 			</div>
-			<div class="bnb_value" ng-if="item.buyCurrency.symbol!='WBNB'">
+			<div class="bnb_value" ng-if="item.buyCurrency.symbol!='WBNB'" ng-click="core.explorer.openTransactionDetails(item.transaction.hash)">
 				{{item.sellAmount|largenumber:5}} BNB
 			</div>
 		</div>

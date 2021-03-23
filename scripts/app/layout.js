@@ -123,7 +123,7 @@
 			
 			
 			$scope.resize = function() {
-				var appHeaderHeight		= parseInt($('#app-header').height());
+				var appHeaderHeight		= parseInt($('.window-header').outerHeight());
 				var winHeight			= parseInt($(window).height());
 				$('.app-content').css({
 					height:		(winHeight-appHeaderHeight)+'px'

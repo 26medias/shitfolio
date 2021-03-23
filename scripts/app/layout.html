@@ -1,35 +1,7 @@
 <div>
-	
-	<!-- Window Header -->
-	<md-toolbar class="md-menu-toolbar" id="app-header" style="-webkit-app-region: drag">
-		<div layout="row">
-			<md-toolbar-filler layout layout-align="center center" class="md-primary">
-				<!--<span class="fas fa-laptop-code fa-2x"></span>-->
-				<img src="./icon.png" style="width:100%" />
-			</md-toolbar-filler>
-			<div>
-				<h2 class="md-toolbar-tools">
-					💩 Shitfolio
-				</h2>
-				<md-menu-bar style="-webkit-app-region: no-drag">
-					<md-menu ng-repeat="section in core.menu.sections">
-						<button ng-click="$mdMenu.open()">
-							{{section.name}}
-						</button>
-						<md-menu-content>
-							<md-menu-item ng-repeat="item in section.items">
-								<md-button ng-click="item.onClick()">
-									<md-icon md-font-icon="{{item.icon}}"></md-icon>
-									{{item.label}}
-									<code ng-if="item.tag">{{item.tag}}</code>
-								</md-button>
-							</md-menu-item>
-						</md-menu-content>
-					</md-menu>
-				</md-menu-bar>
-			</div>
-		</div>
-	</md-toolbar>
+	<div class="window-header" style="-webkit-app-region: drag">
+		💩 Shitfolio
+	</div>
 	
 	<!-- Minimize, Maximize, Close, DevTools -->
 	<div class="window-controls" style="-webkit-app-region: no-drag">

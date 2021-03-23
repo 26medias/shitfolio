@@ -1,14 +1,5 @@
 <div class="home-layout" style="height:{{core.contentHeight}}px">
 	<div class="status">
-		<span ng-if="core.explorer.loading">
-			<span class="fas fa-spin fa-spinner"></span> Explorer refreshing...
-		</span>
-		<span ng-if="core.explorer.last_refresh">
-			Explorer Updated {{core.explorer.last_refresh|timeago}}
-		</span>
-		<span>
-			- 
-		</span>
 		<span ng-if="core.portfolio.loading">
 			<span class="fas fa-spin fa-spinner"></span> Portfolio refreshing...
 		</span>
@@ -16,8 +7,27 @@
 			Portfolio Updated {{core.portfolio.last_refresh|timeago}}
 		</span>
 	</div>
-	<div class="home_balance" 		ui-balance></div>
-	<div class="home_transactions" 	ui-transactions></div>
-	<div class="home_explorer" 		ui-explorer></div>
-	<div class="home_iframe" 		ui-iframe></div>
+	<div class="ui-tabs">
+		<div>
+			<div class="ui-tab" ng-class="{active:tabs.is('holdings')}" ng-click="tabs.select('holdings')">
+				<span class="fas fa-coins"></span>
+				Holdings
+			</div>
+			<div class="ui-tab" ng-class="{active:tabs.is('transactions')}" ng-click="tabs.select('transactions')">
+				<span class="fas fa-stream"></span>
+				Transactions
+			</div>
+			<div class="ui-tab" ng-click="core.portfolio.refreshAll()">
+				<span ng-if="core.portfolio.loading">
+					<span class="fas fa-spin fa-sync"></span>
+				</span>
+				<span ng-if="!core.portfolio.loading">
+					<span class="fas fa-sync"></span>
+				</span>
+			</div>
+		</div>
+	</div>
+	<div class="home_sidebar" ng-if="tabs.is('holdings')" ui-balance></div>
+	<div class="home_sidebar" ng-if="tabs.is('transactions')"	ui-transactions></div>
+	<div class="home_iframe" ui-iframe></div>
 </div>

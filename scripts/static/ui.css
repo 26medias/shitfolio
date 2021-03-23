@@ -57,6 +57,11 @@ a {
   margin: 1px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }
+.window-header {
+  background-color: #263238;
+  padding: 10px;
+  font-size: 20px;
+}
 .window-controls {
   position: absolute;
   z-index: 50000;
@@ -124,9 +129,9 @@ a {
   margin-bottom: 25px;
   width: 100%;
   display: grid;
-  grid-template-rows: auto auto 20px;
-  grid-template-columns: 500px auto 350px;
-  grid-template-areas: "explorer iframe balance" "explorer iframe transactions" "status status status";
+  grid-template-rows: 40px auto 20px;
+  grid-template-columns: auto 350px;
+  grid-template-areas: "iframe tabs" "iframe sidebar" "status status";
 }
 .home-layout .status {
   grid-area: status;
@@ -135,52 +140,33 @@ a {
   font-size: 11px;
   color: #a5a5a5;
 }
-.home-layout .home_balance {
-  grid-area: balance;
-  justify-self: stretch;
-  align-self: stretch;
-}
-.home-layout .home_transactions {
-  grid-area: transactions;
+.home-layout .home_sidebar {
+  grid-area: sidebar;
   justify-self: stretch;
   align-self: stretch;
   max-height: 100%;
   overflow-y: auto;
 }
-.home-layout .home_explorer {
-  grid-area: explorer;
+.home-layout .ui-tabs {
+  grid-area: tabs;
   justify-self: stretch;
   align-self: stretch;
-  max-height: 100%;
-  overflow-y: auto;
 }
 .home-layout .home_iframe {
   grid-area: iframe;
   justify-self: stretch;
   align-self: stretch;
-  max-height: 100%;
-  overflow-y: auto;
 }
 .home-layout .home_iframe .iframe {
   width: 100%;
   height: 100%;
   border: 1px solid #508ED7;
 }
-@media (max-width: 1200px) {
-  .home-layout {
-    grid-template-rows: auto auto 20px;
-    grid-template-columns: auto 350px;
-    grid-template-areas: "explorer balance" "explorer transactions" "status status";
-  }
-  .home-layout .home_iframe {
-    display: none;
-  }
-}
-@media (max-width: 900px) {
+@media (max-width: 500px) {
   .home-layout {
     grid-template-rows: auto auto 20px;
     grid-template-columns: auto;
-    grid-template-areas: "balance" "transactions" "status";
+    grid-template-areas: "tabs" "sidebar" "status";
   }
   .home-layout .home_iframe,
   .home-layout .home_explorer {
@@ -598,7 +584,7 @@ a {
   display: grid;
   grid-template-columns: 80px 160px 60px;
   grid-template-rows: auto;
-  grid-template-areas: "symbol sparkline bnb" "value sparkline gains";
+  grid-template-areas: "symbol sparkline actions" "value sparkline bnb" "_ sparkline gains";
   margin: 5px 0;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
@@ -623,6 +609,9 @@ a {
 }
 .balance > div > .symbol.dumped {
   color: #741010;
+}
+.balance > div > .balance_actions {
+  grid-area: actions;
 }
 .balance > div > .value {
   grid-area: value;
@@ -731,9 +720,9 @@ a {
 }
 .explorer > div {
   display: grid;
-  grid-template-columns: 120px 80px 250px;
+  grid-template-columns: 150px 150px 250px;
   grid-template-rows: auto;
-  grid-template-areas: "created symbol address" "timeago symbol actions";
+  grid-template-areas: "symbol sparkline address" "timeago sparkline actions";
   margin-bottom: 15px;
   grid-gap: 5px;
 }
@@ -743,11 +732,13 @@ a {
 }
 .explorer > div > .explorer_symbol {
   grid-area: symbol;
+  justify-self: start;
   font-size: 14px;
   font-weight: 800;
   color: #ffffff;
 }
 .explorer > div > .explorer_created {
+  display: none;
   grid-area: created;
   justify-self: end;
   font-size: 10px;
@@ -757,7 +748,7 @@ a {
 }
 .explorer > div > .explorer_createdAgo {
   grid-area: timeago;
-  justify-self: end;
+  justify-self: start;
   font-size: 10px;
   font-weight: 400;
   color: #a5a5a5;
@@ -778,4 +769,7 @@ a {
   font-weight: 300;
   color: #d3d3d3;
   text-align: left;
+}
+.explorer > div > .explorer_sparkline {
+  grid-area: sparkline;
 }

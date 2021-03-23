@@ -30,7 +30,7 @@
 			
 			
 			$scope.tabs	= {
-				selected:	'list',
+				selected:	'holdings',
 				select:		function(id) {
 					$scope.safeApply(function() {
 						

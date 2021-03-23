@@ -32,7 +32,14 @@
 				},
 				init:	function() {
 					if ($scope.tabs.is('recent')) {
-						var tokenList = 'tokens';
+						$scope.main.tokens = _.map($scope.core.discoverer.tokens, function(data, address) {
+							return _.extend(data, {address:address, ts:new Date(data.created*1000).getTime()});
+						});
+						$scope.main.tokens.sort(function(a,b) {
+							return b.created-a.created;
+						});
+						console.log("$scope.main.tokens", $scope.main.tokens.length, $scope.main.tokens);
+						return true;
 					} else if ($scope.tabs.is('watchlist')) {
 						var tokenList = 'watchlist';
 					} else if ($scope.tabs.is('all')) {
@@ -80,13 +87,18 @@
 							$scope.main.loading = false;
 						});
 					});
+				},
+				toggleRefresh:	function() {
+					$scope.safeApply(function() {
+						$scope.core.paused = !!$scope.core.paused;
+					});
 				}
 			};
 			
 
 
 			$scope.tabs	= {
-				selected:	'watchlist',
+				selected:	'recent',
 				select:		function(id) {
 					$scope.safeApply(function() {
 						
@@ -110,9 +122,12 @@
 				//$scope.main.init();
 			});
 			
-			$scope.$watch('core.explorer.data', function() {
+			/*$scope.$watch('core.explorer.data', function() {
 				$scope.main.init();
-			}, true);
+			}, true);*/
+			$scope.$watch('core.discoverer.tokens', function() {
+				$scope.main.init();
+			});
 			
 			$scope.$on('$destroy', function() {
 				clearInterval(refreshClock);

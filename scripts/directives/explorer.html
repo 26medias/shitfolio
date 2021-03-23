@@ -23,11 +23,19 @@
 			<span ng-if="!main.loading">
 				<span class="fas fa-sync"></span>
 			</span>
-			
+		</div>
+		<div class="ui-tab" ng-click="main.toggleRefresh()">
+			<span ng-if="core.paused">
+				<span class="fas fa-play"></span>
+			</span>
+			<span ng-if="!core.paused">
+				<span class="fas fa-pause"></span>
+			</span>
 		</div>
 	</div>
 </div>
-<div class="explorer">
+
+<div class="explorer" ng-if="!tabs.is('recent')">
 	<div ng-repeat="token in main.tokens">
 		<div class="explorer_symbol">
 			{{token.symbol}}
@@ -62,6 +70,45 @@
 				</div>
 				<div ng-click="core.explorer.openPancakeSwap(token.address)">
 					<span class="fas fa-shopping-cart"></span>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="explorer" ng-if="tabs.is('recent')">
+	<div ng-repeat="token in main.tokens">
+		<div class="explorer_symbol">
+			{{token.name}}
+		</div>
+		<div class="explorer_created">
+			{{token.ts|date:'medium'}}
+		</div>
+		<div class="explorer_createdAgo">
+			Created {{token.ts|timeago}}
+		</div>
+		<div class="explorer_address">
+			{{token.address}}
+		</div>
+		<div class="explorer_sparkline">
+			
+		</div>
+		<div class="explorer_actions">
+			<div class="actions">
+				<div ng-click="core.explorer.openChart(token.address)">
+					<span class="fas fa-chart-line"></span>
+				</div>
+				<div ng-click="core.explorer.openTokenInfo(token.address)">
+					<span class="fas fa-info"></span>
+				</div>
+				<div ng-click="core.explorer.openTokenContract(token.address)">
+					<span class="fas fa-file-contract"></span>
+				</div>
+				<div ng-click="core.explorer.openPancakeSwap(token.address)">
+					<span class="fas fa-shopping-cart"></span>
+				</div>
+				<div ng-click="core.discoverer.parseToken(token.address)">
+					<span class="fas fa-download"></span>
 				</div>
 			</div>
 		</div>
